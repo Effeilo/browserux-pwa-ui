@@ -1,0 +1,44 @@
+{
+  "name": "browserux-pwa-ui",
+  "version": "1.0.0",
+  "description": "Web Components UI for PWA install and update flows",
+  "type": "module",
+  "main": "dist/browserux-pwa-ui.umd.js",
+  "module": "dist/browserux-pwa-ui.esm.js",
+  "types": "dist/browserux-pwa-ui.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "author": "Effeilo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Effeilo/browserux-pwa-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Effeilo/browserux-pwa-ui/issues"
+  },
+  "keywords": [
+    "web component",
+    "pwa",
+    "install",
+    "update",
+    "ui",
+    "browserux"
+  ],
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.42.0",
+    "rollup-plugin-dts": "^6.2.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4"
+  }
+}

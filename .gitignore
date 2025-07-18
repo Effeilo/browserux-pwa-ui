@@ -1,0 +1,34 @@
+# Node dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Build output
+dist/
+*.log
+*.tsbuildinfo
+
+# Rollup cache (if used)
+.rollup.cache/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# VSCode settings (optional)
+.vscode/
+
+# Env files (if used)
+.env
+.env.local
+.env.*
+
+# Coverage reports (if you add tests)
+coverage/
+
+# IDEs / OS
+.idea/
+*.swp
+
+# Optional: compiled declarations if not tracked
+*.d.ts

@@ -3,10 +3,10 @@ export const styles = `
     --bux-pwa-banner-bg: #0e93f0;
     --bux-pwa-banner-color: #fff;
     --bux-pwa-banner-padding: 1rem;
-    --bux-pwa-banner-btn-bg: #fff; 
-    --bux-pwa-banner-btn-color: #000; 
-    --bux-pwa-banner-btn-hover-bg: #000; 
-    --bux-pwa-banner-btn-hover-color: #fff; 
+    --bux-pwa-banner-btn-bg: #fff;
+    --bux-pwa-banner-btn-color: #000;
+    --bux-pwa-banner-btn-hover-bg: #000;
+    --bux-pwa-banner-btn-hover-color: #fff;
     --bux-pwa-banner-btn-padding: 0.8rem 2rem;
     --bux-pwa-banner-btn-border-radius: 2rem;
     --bux-pwa-snackbar-padding: 2rem 2rem 2rem 1rem;
@@ -16,7 +16,7 @@ export const styles = `
   }
 
   svg {
-    fill: var(--bux-pwa-banner-color); 
+    fill: var(--bux-pwa-banner-color);
   }
 
   .pwa-btn {
@@ -71,6 +71,12 @@ export const styles = `
     font-size: 20px;
     height: 32px;
     width: 32px;
+  }
+
+  .pwa-banner-close-btn:focus-visible {
+    outline: 2px solid var(--bux-pwa-banner-color);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   @media only screen and (min-width : 1024px) {
@@ -144,5 +150,11 @@ export const styles = `
 
   .pwa-install-btn.is-visible {
     display: inline-block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pwa-banner {
+      transition: none;
+    }
   }
 `;

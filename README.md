@@ -22,7 +22,7 @@ The installation and update flows of Progressive Web Apps (PWA) are currently po
 
 - Installation relies on the `beforeinstallprompt` event, which is discreet and rarely triggered.
 - Updates happen silently in the background, without any visual feedback, which can confuse users.
-- There’s no native, unified, or customizable interface to guide users through these key steps.
+- There's no native, unified, or customizable interface to guide users through these key steps.
 
 This component was created to fill those UX gaps:
 
@@ -42,15 +42,18 @@ It provides a clear, customizable, and multilingual interface to encourage PWA i
 - 📥 Displays the install button when the `beforeinstallprompt` event is triggered
 - ✅ Shows a confirmation banner after successful installation
 - 🛰️ Automatically detects updates via `registration.waiting`
-- 🔄 Shows an update interface with a “Update” button
+- 🔄 Shows an update interface with a "Update" button
 - 📤 Sends the `SKIP_WAITING` message to the service worker and reloads the app
 - 🌐 Works without Shadow DOM when the `no-shadow` attribute is used
 - 🎨 Icon customization via slots
 - 🌍 Built-in translations: French, English, Spanish, 🇮🇹 Italian, German, Japanese, Russian, Dutch, Portuguese
+- ♿ Accessible: ARIA roles, localized labels, keyboard navigation, and focus management
+- 📡 Dispatches custom events (`pwa-install`, `pwa-installed`, `pwa-update`, `pwa-updated`)
+- 🎭 Respects `prefers-reduced-motion` for users who prefer reduced animations
 
 ## Installation
 
-> This component provides only the user interface for the installation and update flows of a PWA.  
+> This component provides only the user interface for the installation and update flows of a PWA.
 It assumes your manifest and service worker are already properly configured.
 
 ```bash
@@ -63,7 +66,7 @@ Or via CDN:
 <script type="module" src="https://unpkg.com/browserux-pwa-ui/dist/browserux-pwa-ui.min.js"></script>
 ```
 
-> Use the `.esm.js` version if you're integrating this component with a bundler (React, Vue, etc.),  
+> Use the `.esm.js` version if you're integrating this component with a bundler (React, Vue, etc.),
 and the `.min.js` version for direct HTML integration via CDN.
 
 ## Usage
@@ -138,7 +141,7 @@ export class AppModule {}
 1. Directly include the component via a CDN:
 
 ```html
-<script type="module" src="https://unpkg.com/browserux-theme-switcher/dist/browserux-pwa-ui.min.js"></script>
+<script type="module" src="https://unpkg.com/browserux-pwa-ui/dist/browserux-pwa-ui.min.js"></script>
 ```
 
 2. Then add the tag:
@@ -151,14 +154,15 @@ export class AppModule {}
 
 ### Functional Attributes
 
-| Attribute    | Description                                                                                              |
-| ------------ | -------------------------------------------------------------------------------------------------------- |
-| `no-install` | Hides the installation interface                                                                         |
-| `no-update`  | Hides the update interface                                                                               |
-| `no-shadow`  | Disables Shadow DOM (global styles required)                                                             |
-| `lang="xx"`  | Forces the displayed language (`fr`, `en`, `es`, `de`, etc.)                                             |
-| `snackbar`   | The banner is displayed in snackbar mode (floating in a screen corner) for screen resolutions greater than 1024px.                                    |
-| `position`   | Positions the snackbar: `top-left`, `top-right`, `bottom-left`, `bottom-right` (default: `bottom-right`) |
+| Attribute           | Description                                                                                              |
+| ------------------- | -------------------------------------------------------------------------------------------------------- |
+| `no-install`        | Hides the installation interface                                                                         |
+| `no-update`         | Hides the update interface                                                                               |
+| `no-shadow`         | Disables Shadow DOM (global styles required)                                                             |
+| `lang="xx"`         | Forces the displayed language (`fr`, `en`, `es`, `de`, etc.). Reactive: updating this attribute live-updates all visible labels. |
+| `snackbar`          | The banner is displayed in snackbar mode (floating in a screen corner) for screen resolutions greater than 1024px. |
+| `position`          | Positions the snackbar: `top-left`, `top-right`, `bottom-left`, `bottom-right` (default: `bottom-right`) |
+| `loader-duration`   | Duration in milliseconds of the loader before showing the confirmation banner (default: `2500`)          |
 
 
 > If `lang` is not defined, the component will try to use `document.documentElement.lang`, and fallback to English (`en`) if none is found.
@@ -172,12 +176,13 @@ export class AppModule {}
   snackbar
   position="top-right"
   lang="en"
-></browserux-pwa-ui>         |
+  loader-duration="3000"
+></browserux-pwa-ui>
 ```
 
 ### Text Translation
 
-All displayed texts are automatically translated.  
+All displayed texts are automatically translated.
 You can override them using HTML attributes:
 
 | Attribute              | Default (example: English)                  |
@@ -189,13 +194,13 @@ You can override them using HTML attributes:
 | `text-update-title`    | An update is available                      |
 | `text-update-button`   | Update                                      |
 
-#### Example : 
+#### Example :
 
 ```html
 <browserux-pwa-ui
-  text-install-title="Ajoutez ce site sur votre écran d'accueil"
-  text-update-button="Redémarrer pour mettre à jour"
-></browserux-pwa-ui>        |
+  text-install-title="Add this site to your home screen"
+  text-update-button="Restart to update"
+></browserux-pwa-ui>
 ```
 
 #### Supported Languages
@@ -212,6 +217,45 @@ The component supports the following languages:
 - 🇮🇹 it – Italian
 - 🇳🇱 nl – Dutch
 
+### Custom Events
+
+The component dispatches the following events on the host element, allowing you to react to PWA lifecycle changes:
+
+| Event           | Dispatched when                                                                 |
+| --------------- | ------------------------------------------------------------------------------- |
+| `pwa-install`   | The install prompt banner becomes visible                                       |
+| `pwa-installed` | The app has been successfully installed                                         |
+| `pwa-update`    | An update banner is shown to the user                                           |
+| `pwa-updated`   | The service worker has taken control and the page is about to reload            |
+
+All events bubble and are composed (they cross Shadow DOM boundaries).
+
+#### Example:
+
+```html
+<browserux-pwa-ui id="pwa-ui"></browserux-pwa-ui>
+
+<script>
+  const pwaUi = document.getElementById('pwa-ui');
+
+  pwaUi.addEventListener('pwa-install', () => {
+    console.log('Install prompt is visible.');
+  });
+
+  pwaUi.addEventListener('pwa-installed', () => {
+    console.log('PWA installed successfully!');
+  });
+
+  pwaUi.addEventListener('pwa-update', () => {
+    console.log('An update is available.');
+  });
+
+  pwaUi.addEventListener('pwa-updated', () => {
+    console.log('Update applied, reloading…');
+  });
+</script>
+```
+
 ### Visual Customization
 
 #### Icon Slots
@@ -223,18 +267,18 @@ The component supports the following languages:
 | `close-icon-update`  | Close icon (update prompt)     |
 | `loader-icon`        | Loading animation              |
 
-##### Example : 
+##### Example :
 
 ```html
 <browserux-pwa-ui>
   <svg slot="close-icon-update" viewBox="0 0 24 24" width="24"><path d="M6 6L18 18M6 18L18 6"/></svg>
   <svg slot="loader-icon" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="10" stroke="orange" fill="none"/></svg>
-</browserux-pwa-ui>       |
+</browserux-pwa-ui>
 ```
 
 #### CSS Custom Properties
 
-You can customize the component’s colors using CSS variables, either directly in the component’s `style` attribute or globally if `no-shadow` is enabled.
+You can customize the component's colors using CSS variables, either directly in the component's `style` attribute or globally if `no-shadow` is enabled.
 
 | CSS Variable                         | Default value         | Description                           |
 | ------------------------------------ | --------------------- | ------------------------------------- |
@@ -252,8 +296,7 @@ You can customize the component’s colors using CSS variables, either directly 
 | `--bux-pwa-loader-bg`                | `rgba(0, 0, 0, 0.7)`  | Loader background color               |
 | `--bux-pwa-z-index`                  | `1000`                | Z-index for banner/loader             |
 
-    
-##### Example : 
+##### Example :
 
 ```html
 <browserux-pwa-ui
@@ -266,7 +309,7 @@ You can customize the component’s colors using CSS variables, either directly 
     --bux-pwa-banner-btn-color: #212121;
     --bux-pwa-snackbar-border-radius: 12px;
   "
-></browserux-pwa-ui>         |
+></browserux-pwa-ui>
 ```
 
 ## How It Works
@@ -293,9 +336,18 @@ This component automatically displays the appropriate interface based on the sta
   1. The `lang` attribute on the component (`<browserux-pwa-ui lang="en">`)
   2. `document.documentElement.lang`
   3. Defaults to `en`
+- Updating the `lang` attribute at runtime immediately refreshes all visible labels.
 - All texts are translated and can be overridden via HTML attributes.
 - Colors can be customized using CSS variables.
 - Icons can be replaced using `<slot>` elements.
+
+### Accessibility
+
+- Install and update banners use `role="alert"` with `aria-live="assertive"` so screen readers announce them immediately.
+- The confirmation banner uses `role="status"` with `aria-live="polite"` for a less intrusive announcement.
+- Close buttons have `role="button"`, `tabindex="0"`, and a localized `aria-label` so they are fully operable by keyboard.
+- Focus is automatically moved to the action button when a banner appears, and to the close button after installation completes.
+- The `prefers-reduced-motion` media query disables CSS transitions for users who prefer reduced motion.
 
 ## Build & Development
 

@@ -1,6 +1,6 @@
 {
   "name": "browserux-pwa-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Web Components UI for PWA install and update flows",
   "type": "module",
   "main": "dist/browserux-pwa-ui.umd.js",

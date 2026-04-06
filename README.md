@@ -11,7 +11,7 @@
 BrowserUX PWA UI provides a clear, consistent, and customizable user experience for installing and updating your PWA, while remaining lightweight, self-contained, and easy to integrate into any project, from simple HTML pages to modern JavaScript applications.
 
 - [Project website](https://browserux.com/pwa-ui/)
-- [Demo](https://browseruxcss.com/pwa-ui/demo/)
+- [Demo](https://browserux.com/pwa-ui/demo/)
 - [Documentation](./docs/index.md)
 - [Changelog](./CHANGELOG.md)
 

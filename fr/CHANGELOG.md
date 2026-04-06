@@ -28,14 +28,14 @@ et utilise le versionnage sémantique [SemVer](https://semver.org/lang/fr/).
 
 ### ✨ Nouvelles fonctionnalités
 
-- **Événements personnalisés** : le composant émet désormais `pwa-install`, `pwa-installed`, `pwa-update` et `pwa-updated` sur l'élément hôte (bubbling, composed — traversent le Shadow DOM)
+- **Événements personnalisés** : le composant émet désormais `pwa-install`, `pwa-installed`, `pwa-update` et `pwa-updated` sur l'élément hôte (bubbling, composed, traversent le Shadow DOM)
 - **Attribut `loader-duration`** : configure la durée d'affichage du loader en millisecondes avant l'apparition de la bannière de confirmation (valeur par défaut : `2500`)
 - **Attribut `lang` réactif** : modifier l'attribut `lang` après le rendu met désormais à jour en temps réel tous les textes visibles et les `aria-label`, sans remonter le composant
 - **`prefers-reduced-motion`** : les transitions CSS des bannières sont désactivées pour les utilisateurs qui préfèrent les animations réduites
 
 ### 🐛 Corrections de bugs
 
-- **Fuite mémoire** : ajout du `disconnectedCallback()` — les écouteurs d'événements globaux (`beforeinstallprompt`, `appinstalled`, `controllerchange`, `updatefound`) sont désormais correctement supprimés lorsque le composant est retiré du DOM
+- **Fuite mémoire** : ajout du `disconnectedCallback()`, les écouteurs d'événements globaux (`beforeinstallprompt`, `appinstalled`, `controllerchange`, `updatefound`) sont désormais correctement supprimés lorsque le composant est retiré du DOM
 - **Gestion d'erreur Service Worker** : les appels à `navigator.serviceWorker` sont désormais enveloppés dans un `try/catch` avec une vérification `'serviceWorker' in navigator` ; le composant se dégrade gracieusement dans les environnements non-HTTPS ou non compatibles
 
 ### 🎨 Styles

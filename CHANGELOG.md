@@ -28,14 +28,14 @@ and adheres to [Semantic Versioning (SemVer)](https://semver.org/).
 
 ### ✨ New features
 
-- **Custom events**: the component now dispatches `pwa-install`, `pwa-installed`, `pwa-update`, and `pwa-updated` events on the host element (bubbling, composed — cross Shadow DOM)
+- **Custom events**: the component now dispatches `pwa-install`, `pwa-installed`, `pwa-update`, and `pwa-updated` events on the host element (bubbling, composed, cross Shadow DOM)
 - **`loader-duration` attribute**: configures the loader display duration in milliseconds before showing the confirmation banner (default: `2500`)
 - **Reactive `lang` attribute**: updating the `lang` attribute after render now live-updates all visible text and `aria-label` values without re-mounting the component
 - **`prefers-reduced-motion`**: CSS transitions on banners are disabled for users who prefer reduced motion
 
 ### 🐛 Bug fixes
 
-- **Memory leak**: added `disconnectedCallback()` — global event listeners (`beforeinstallprompt`, `appinstalled`, `controllerchange`, `updatefound`) are now properly removed when the component is disconnected from the DOM
+- **Memory leak**: added `disconnectedCallback()`, global event listeners (`beforeinstallprompt`, `appinstalled`, `controllerchange`, `updatefound`) are now properly removed when the component is disconnected from the DOM
 - **Service Worker error handling**: wrapped all `navigator.serviceWorker` calls in `try/catch` with a `'serviceWorker' in navigator` guard; the component now gracefully degrades in non-HTTPS or unsupported environments
 
 ### 🎨 Styles
